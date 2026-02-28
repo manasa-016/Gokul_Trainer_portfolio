@@ -145,29 +145,8 @@
     // Hover effect on interactive elements
     const hoverElements = document.querySelectorAll('a, button, .tilt-card, .skill-tag, .cert-card, .role-card');
     hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (el.tagName === 'A' && !el.classList.contains('btn')) {
-                outline.classList.add('link-hover');
-            } else {
-                outline.classList.add('hover');
-            }
-        });
-        el.addEventListener('mouseleave', () => {
-            outline.classList.remove('hover');
-            outline.classList.remove('link-hover');
-        });
-    });
-
-    // Dynamic Glow Effect on Hover
-    const glowCards = document.querySelectorAll('.timeline-card, .skill-category, .edu-card, .contact-card, .contact-form-wrapper');
-    glowCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--x', `${x}px`);
-            card.style.setProperty('--y', `${y}px`);
-        });
+        el.addEventListener('mouseenter', () => outline.classList.add('hover'));
+        el.addEventListener('mouseleave', () => outline.classList.remove('hover'));
     });
 })();
 
