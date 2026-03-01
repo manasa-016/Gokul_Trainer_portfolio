@@ -48,6 +48,9 @@
             <a href="#contact" class="nav-link" data-section="contact">Contact</a>
         </div>
         <div class="nav-actions">
+            <a href="Gokul AI Trainer.pdf" class="nav-cta secondary" download>
+                <i class="fas fa-file-download"></i> Resume
+            </a>
             <a href="mailto:gokulakrishnan.msamy@gmail.com" class="nav-cta">Hire Me</a>
             <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
@@ -117,6 +120,10 @@
                         <span>Get in Touch</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
+                    <a href="Gokulakrishnan_Resume.pdf" class="btn btn-outline btn-download-resume" download>
+                        <span>Resume</span>
+                        <i class="fas fa-download"></i>
+                    </a>
                     <a href="#experience" class="btn btn-outline">
                         <span>View Work</span>
                         <i class="fas fa-eye"></i>
@@ -132,32 +139,16 @@
                 </div>
             </div>
             <div class="hero-visual animate-in">
-                <div class="hero-3d-card" id="hero3dCard">
-                    <div class="card-glow"></div>
-                    <div class="profile-frame">
-                        <div class="profile-avatar">
-                            <span class="avatar-initials">GK</span>
-                            <div class="avatar-ring"></div>
-                            <div class="avatar-ring ring-2"></div>
+                <div class="image-space-container hero-only-pic" id="hero3dCard">
+                    <div class="image-space-glow"></div>
+                    <div class="profile-avatar">
+                        <img src="profile.jpg" alt="Gokulakrishnan M" class="profile-image" id="profileImage"
+                            onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
+                        <div class="avatar-fallback" id="avatarFallback" style="display: none;">
+                            <i class="fas fa-user-astronaut"></i>
                         </div>
-                        <div class="profile-info">
-                            <h3>Gokulakrishnan M</h3>
-                            <p>AI/ML Expert & Trainer</p>
-                        </div>
-                        <div class="profile-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">AI/ML</span>
-                            <span class="tag">Data Science</span>
-                            <span class="tag">GenAI</span>
-                        </div>
-                    </div>
-                    <div class="floating-icons">
-                        <div class="float-icon fi-1"><i class="fab fa-python"></i></div>
-                        <div class="float-icon fi-2"><i class="fas fa-brain"></i></div>
-                        <div class="float-icon fi-3"><i class="fas fa-database"></i></div>
-                        <div class="float-icon fi-4"><i class="fas fa-chart-line"></i></div>
-                        <div class="float-icon fi-5"><i class="fab fa-docker"></i></div>
-                        <div class="float-icon fi-6"><i class="fas fa-robot"></i></div>
+                        <div class="avatar-ring"></div>
+                        <div class="avatar-ring ring-2"></div>
                     </div>
                 </div>
             </div>
@@ -600,7 +591,7 @@
                             <span>Microsoft Azure PL-900</span>
                         </div>
                         <div class="cert-card">
-                            <div class="cert-icon"><i class="fas fa-diploma"></i></div>
+                            <div class="cert-icon"><i class="fas fa-graduation-cap"></i></div>
                             <span>IIT Madras Diploma in Data Science</span>
                         </div>
                         <div class="cert-card">
@@ -642,6 +633,8 @@
                 </div>
             </div>
         </section>
+
+
 
         <!-- Contact Section -->
         <section class="section contact-section" id="contact">

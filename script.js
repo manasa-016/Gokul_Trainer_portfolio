@@ -3,103 +3,143 @@
    3D Effects, Animations, and Interactions
    ============================================ */
 
-// ---- Three.js Professional Mesh Background ----
+// ---- Enhanced Three.js Interactive Professional 3D Background ----
 (function initThreeJS() {
     const canvas = document.getElementById('bg-canvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    if (!canvas) return;
 
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030712, 0.04); // Deep dark blue fog
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 30;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Create Mesh Background
-    const planeSize = 30;
-    const planeSegments = 40;
-    const geometry = new THREE.PlaneGeometry(planeSize, planeSize, planeSegments, planeSegments);
+    // Particle Group
+    const particles = new THREE.Group();
+    scene.add(particles);
 
-    // Custom vertex animation
-    const originalPositions = geometry.attributes.position.array.slice();
+    const particlesCount = 2000;
+    const posArray = new Float32Array(particlesCount * 3);
+    const colorsArray = new Float32Array(particlesCount * 3);
+    const sizeArray = new Float32Array(particlesCount);
+
+    // AI Theme Colors - Professional Blue Palette
+    const color1 = new THREE.Color('#3b82f6'); // Royal Blue
+    const color2 = new THREE.Color('#0ea5e9'); // Sky Blue
+    const color3 = new THREE.Color('#a5f3fc'); // Cyan
+
+    for (let i = 0; i < particlesCount; i++) {
+        const radius = 20 + Math.random() * 30;
+        const theta = Math.random() * 2 * Math.PI;
+        const phi = Math.acos((Math.random() * 2) - 1);
+
+        posArray[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        posArray[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        posArray[i * 3 + 2] = radius * Math.cos(phi);
+
+        sizeArray[i] = Math.random() * 1.5;
+
+        let mixedColor = color1.clone();
+        const randColor = Math.random();
+        if (randColor > 0.66) mixedColor = color2.clone();
+        else if (randColor > 0.33) mixedColor = color3.clone();
+
+        colorsArray[i * 3] = mixedColor.r;
+        colorsArray[i * 3 + 1] = mixedColor.g;
+        colorsArray[i * 3 + 2] = mixedColor.b;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
 
     const material = new THREE.ShaderMaterial({
-        uniforms: {
-            uTime: { value: 0 },
-            uColorPrimary: { value: new THREE.Color(0x7c3aed) },
-            uColorSecondary: { value: new THREE.Color(0x06b6d4) }
-        },
+        uniforms: { uTime: { value: 0 } },
         vertexShader: `
+            attribute float size;
+            attribute vec3 color;
+            varying vec3 vColor;
             uniform float uTime;
-            varying float vElevation;
-            
             void main() {
-                vec4 modelPosition = modelMatrix * vec4(position, 1.0);
-                
-                float elevation = sin(modelPosition.x * 0.3 + uTime * 0.5) * 
-                                  cos(modelPosition.z * 0.3 + uTime * 0.5) * 0.8;
-                
-                modelPosition.y += elevation;
-                
-                vElevation = elevation;
-                gl_Position = projectionMatrix * viewMatrix * modelPosition;
+                vColor = color;
+                vec3 pos = position;
+                pos.x += sin(pos.y * 0.1 + uTime * 0.5) * 2.0;
+                pos.z += cos(pos.x * 0.1 + uTime * 0.5) * 2.0;
+                vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                gl_PointSize = size * (350.0 / -mvPosition.z);
+                gl_Position = projectionMatrix * mvPosition;
             }
         `,
         fragmentShader: `
-            uniform vec3 uColorPrimary;
-            uniform vec3 uColorSecondary;
-            varying float vElevation;
-            
+            varying vec3 vColor;
             void main() {
-                float mixStrength = (vElevation + 0.8) / 1.6;
-                vec3 color = mix(uColorPrimary, uColorSecondary, mixStrength);
-                gl_FragColor = vec4(color, 0.08); // Very subtle
+                float dist = distance(gl_PointCoord, vec2(0.5));
+                if (dist > 0.5) discard;
+                float alpha = pow(1.0 - dist * 2.0, 1.5);
+                gl_FragColor = vec4(vColor, alpha * 0.8);
             }
         `,
-        transparent: true,
-        wireframe: true,
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.y = -2;
-    scene.add(mesh);
+    const particlesMesh = new THREE.Points(geometry, material);
+    particles.add(particlesMesh);
 
-    // Add flowing particles (Dots at intersections)
-    const pointsMaterial = new THREE.PointsMaterial({
-        size: 0.02,
-        color: 0x7c3aed,
+    // Modern Neural Core
+    const coreGroup = new THREE.Group();
+    scene.add(coreGroup);
+
+    const coreMaterial = new THREE.LineBasicMaterial({
+        color: 0x3b82f6,
         transparent: true,
-        opacity: 0.3,
-        sizeAttenuation: true
+        opacity: 0.2,
+        blending: THREE.AdditiveBlending
     });
-    const points = new THREE.Points(geometry, pointsMaterial);
-    points.rotation.x = -Math.PI / 2;
-    points.position.y = -2;
-    scene.add(points);
 
-    camera.position.set(0, 5, 10);
-    camera.lookAt(0, 0, 0);
+    // Layered geometric shells
+    const shell1 = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.OctahedronGeometry(10, 2)), coreMaterial);
+    const shell2 = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.OctahedronGeometry(14, 1)), coreMaterial.clone());
+    shell2.material.opacity = 0.1;
 
-    // Mouse tracking
+    coreGroup.add(shell1);
+    coreGroup.add(shell2);
+
+    // Mouse Interaction
     let mouseX = 0, mouseY = 0;
     document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
-        mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+        mouseX = (e.clientX - window.innerWidth / 2) * 0.002;
+        mouseY = (e.clientY - window.innerHeight / 2) * 0.002;
     });
 
-    // Animation loop
     const clock = new THREE.Clock();
+    let targetX = 0, targetY = 0;
 
     function animate() {
         requestAnimationFrame(animate);
         const elapsedTime = clock.getElapsedTime();
 
+        // Smooth camera track
+        targetX = mouseX * 5;
+        targetY = mouseY * 5;
+        camera.position.x += (targetX - camera.position.x) * 0.05;
+        camera.position.y += (-targetY - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        // Core shell rotations
+        shell1.rotation.y = elapsedTime * 0.2;
+        shell1.rotation.z = elapsedTime * 0.1;
+        shell2.rotation.y = -elapsedTime * 0.15;
+        shell2.rotation.x = elapsedTime * 0.1;
+
+        particles.rotation.y = elapsedTime * 0.05;
+
+        // Update shaders
         material.uniforms.uTime.value = elapsedTime;
-
-        // Subtle camera movement
-        camera.position.x += (mouseX * 5 - camera.position.x) * 0.01;
-        camera.position.z += (10 + mouseY * 5 - camera.position.z) * 0.01;
-        camera.lookAt(0, 0, 0);
-
         renderer.render(scene, camera);
     }
 
@@ -291,27 +331,7 @@ window.addEventListener('load', () => {
     if (statsEl) observer.observe(statsEl);
 })();
 
-// ---- 3D Card Tilt Effect ----
-(function init3DCard() {
-    const card = document.getElementById('hero3dCard');
-    if (!card) return;
 
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / centerY * -12;
-        const rotateY = (x - centerX) / centerX * 12;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-    });
-})();
 
 // ---- Tilt Effect for Cards ----
 (function initTiltCards() {
@@ -339,7 +359,7 @@ window.addEventListener('load', () => {
 // ---- Scroll Reveal Animations ----
 (function initScrollReveal() {
     const revealElements = document.querySelectorAll(
-        '.section-header, .timeline-item, .skill-category, .edu-card, .contact-card, .contact-form-wrapper, .about-text, .about-visual, .certifications, .other-roles'
+        '.section-header, .timeline-item, .skill-category, .edu-card, .contact-card, .contact-form-wrapper, .about-text, .about-visual, .certifications, .other-roles, .resume-viewer-container'
     );
 
     const observer = new IntersectionObserver((entries) => {
