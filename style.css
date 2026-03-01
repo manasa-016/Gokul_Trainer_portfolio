@@ -1981,7 +1981,22 @@ body::before {
     }
 
     .hero-visual {
-        margin-top: 40px;
+        margin-top: 20px;
+        order: -1;
+        /* Ensure picture stays on top in vertical layout */
+    }
+
+    .hero-only-pic {
+        width: 200px !important;
+        height: 200px !important;
+        transform: translateY(0) !important;
+        /* Reset the extreme desktop lift */
+        margin-bottom: 20px !important;
+    }
+
+    .hero-only-pic .profile-avatar {
+        width: 170px !important;
+        height: 170px !important;
     }
 
     .about-grid {
@@ -2116,22 +2131,26 @@ body::before {
 }
 
 @media (max-width: 480px) {
+    .hero {
+        padding: 80px 16px 40px;
+    }
+
     .hero-name {
-        font-size: 32px;
+        font-size: 28px;
     }
 
-    .hero-3d-card {
-        width: 260px;
-        padding: 20px;
+    .hero-only-pic {
+        width: 170px !important;
+        height: 170px !important;
+        margin-bottom: 10px !important;
     }
 
-    .float-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
+    .hero-only-pic .profile-avatar {
+        width: 140px !important;
+        height: 140px !important;
     }
 
     .section-title {
-        font-size: 28px;
+        font-size: 26px;
     }
 }
