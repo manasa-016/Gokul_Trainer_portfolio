@@ -30,14 +30,7 @@ A stunning, dark-themed 3D portfolio showcasing expertise in AI/ML, Data Science
 5. **Education** — Academic background and certifications
 6. **Contact** — Form and social links
 
-## 🚀 Getting Started
 
-Simply open `index.html` in a browser, or serve it locally:
-
-```bash
-python -m http.server 3000
-# Open http://localhost:3000
-```
 
 ## 📬 Contact
 
