@@ -1,6 +1,19 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { feedbackData } from "@/lib/feedbackData";
 import "./Feedback.css";
+
+export function generateStaticParams() {
+  const params: { year: string; institute: string; student: string }[] = [];
+  for (const year of feedbackData) {
+    for (const inst of year.institutes) {
+      for (const student of inst.students) {
+        params.push({ year: year.year, institute: inst.slug, student: student.slug });
+      }
+    }
+  }
+  return params;
+}
 
 type Props = {
   params: Promise<{

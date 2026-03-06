@@ -3,6 +3,16 @@ import { notFound } from "next/navigation";
 import { feedbackData } from "@/lib/feedbackData";
 import "../../Feedbacks.css";
 
+export function generateStaticParams() {
+    const params: { year: string; institute: string }[] = [];
+    for (const year of feedbackData) {
+        for (const inst of year.institutes) {
+            params.push({ year: year.year, institute: inst.slug });
+        }
+    }
+    return params;
+}
+
 type Props = {
     params: Promise<{
         year: string;

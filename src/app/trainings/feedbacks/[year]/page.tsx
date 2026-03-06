@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { feedbackData } from "@/lib/feedbackData";
+
+export function generateStaticParams() {
+    return feedbackData.map((d) => ({
+        year: d.year,
+    }));
+}
 import "../Feedbacks.css";
 
 type Props = {
