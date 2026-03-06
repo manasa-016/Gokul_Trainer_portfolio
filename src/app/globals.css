@@ -658,6 +658,20 @@ ul {
   perspective: 1500px;
 }
 
+.hero-only-pic {
+  transform: translateY(-120px);
+  width: 320px;
+  height: 320px;
+  padding: 0;
+  margin: 0 auto;
+  background: rgba(59, 130, 246, 0.03);
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .profile-avatar {
   width: 260px;
   height: 260px;
@@ -1176,35 +1190,19 @@ ul {
 
 .skill-tag {
   padding: 6px 14px;
-  background: var(--bg-glass);
-  border: 1px solid var(--bg-glass-border);
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.2);
   border-radius: 50px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--accent-secondary);
   transition: all var(--transition-fast);
 }
 
 .skill-tag:hover {
   transform: translateY(-2px);
-}
-
-.skill-tag[data-level="expert"] {
-  border-color: rgba(59, 130, 246, 0.3);
-  color: var(--accent-primary);
-  background: rgba(59, 130, 246, 0.08);
-}
-
-.skill-tag[data-level="advanced"] {
-  border-color: rgba(14, 165, 233, 0.2);
-  color: var(--accent-secondary);
-  background: rgba(14, 165, 233, 0.06);
-}
-
-.skill-tag[data-level="intermediate"] {
-  border-color: rgba(165, 243, 252, 0.2);
-  color: var(--accent-tertiary);
-  background: rgba(165, 243, 252, 0.06);
+  border-color: var(--accent-secondary);
+  background: rgba(14, 165, 233, 0.12);
 }
 
 /* ---- Education Section ---- */
@@ -1701,6 +1699,17 @@ ul {
     text-align: center;
   }
 
+  .hero-only-pic {
+    transform: translateY(0);
+    width: 280px;
+    height: 280px;
+  }
+
+  .profile-avatar {
+    width: 220px;
+    height: 220px;
+  }
+
   .hero-content {
     max-width: 100%;
   }
@@ -1747,7 +1756,8 @@ ul {
 @media (max-width: 768px) {
 
   .cursor-dot,
-  .cursor-outline {
+  .cursor-outline,
+  .scroll-indicator {
     display: none;
   }
 
@@ -1769,6 +1779,16 @@ ul {
 
   .hero {
     padding: 100px 20px 60px;
+  }
+
+  .hero-only-pic {
+    width: 240px;
+    height: 240px;
+  }
+
+  .profile-avatar {
+    width: 200px;
+    height: 200px;
   }
 
   .hero-stats {
@@ -1842,6 +1862,16 @@ ul {
 @media (max-width: 480px) {
   .hero {
     padding: 80px 16px 40px;
+  }
+
+  .hero-only-pic {
+    width: 200px;
+    height: 200px;
+  }
+
+  .profile-avatar {
+    width: 160px;
+    height: 160px;
   }
 
   .hero-name {

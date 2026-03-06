@@ -149,9 +149,9 @@ export default function Home() {
         {/* ══════ HERO ══════ */}
         <section className="hero" id="home" ref={heroRef}>
           <div className="hero-visual">
-            <div className="image-space-container hero-only-pic" style={{ width: 320, height: 320, padding: 0, margin: "0 auto", background: "rgba(59, 130, 246, 0.03)", borderRadius: "50%", border: "1px solid rgba(59, 130, 246, 0.1)", display: "flex", alignItems: "center", justifyContent: "center", transform: "translateY(-120px)" }}>
+            <div className="image-space-container hero-only-pic">
               <div className="image-space-glow" style={{ opacity: 0.2 }}></div>
-              <div className="profile-avatar" style={{ width: 260, height: 260 }}>
+              <div className="profile-avatar">
                 <div className="avatar-fallback" style={{ display: "flex" }}>
                   <i className="fas fa-user-astronaut"></i>
                 </div>
